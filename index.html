@@ -161,6 +161,40 @@
         </article>
       </li>
 
+      <!-- ---------------------------------------------- Carbon -->
+      <li class="reveal">
+        <article class="card pressable" data-project="carbon" tabindex="0" role="button" aria-haspopup="dialog">
+          <p class="card__kicker">Quant research · Jul to Aug 2026</p>
+          <h3 class="card__title">Carbon Signal Research</h3>
+          <p class="card__summary">Does a rising carbon price predict clean energy beating fossil fuels? On this sample, no &mdash; and the more interesting result is how easily it could have been claimed otherwise.</p>
+          <p class="tags"><span class="tag">Backtesting</span><span class="tag">Newey&#8211;West</span><span class="tag">Deflated Sharpe</span></p>
+          <span class="card__more" aria-hidden="true">Read more</span>
+
+          <div class="detail" hidden>
+            <p class="detail__kicker">Quant research · Jul to Aug 2026</p>
+            <h2 class="detail__title">Carbon Signal Research</h2>
+            <p class="detail__lede">When carbon allowances get more expensive, do clean-energy equities subsequently outperform fossil-fuel equities? It is a plausible story, and plausible stories are the ones worth testing properly.</p>
+
+            <h3>The study</h3>
+            <p>A green-minus-brown factor built from ETF closes, with carbon-allowance momentum as the signal: long the spread when 60-day carbon momentum is positive, short when negative, scaled to a 10% annualised volatility target on trailing realised vol. A position formed at one close earns the next day&#8217;s return, with five basis points per leg charged on turnover. 1,452 trading days, split chronologically into in-sample and out-of-sample.</p>
+
+            <h3>The answer is no</h3>
+            <p>Regressing next-day spread returns on carbon momentum gives a Newey&#8211;West t-statistic of &#8722;0.74 and an R&#178; of 0.0006. Standard errors are HAC-corrected, because overlapping momentum windows are autocorrelated and plain OLS would overstate the significance.</p>
+
+            <h3>The finding worth defending</h3>
+            <p>One cell of the parameter grid showed a 0.90 out-of-sample Sharpe. Reporting that number alone would have looked impressive, and it would have been an artefact of picking one of five arbitrary lookbacks after seeing the results. A deflated Sharpe test, which raises the bar by the best result you would expect from twenty skill-free trials, puts it at 71.5% against a 95% threshold. The edge belongs to the search, not to the market. The whole grid is published rather than the best cell.</p>
+
+            <h3>Guardrails</h3>
+            <p>The one-day lag lives in exactly one function so it can be tested directly: a test overwrites every observation after a cut date with garbage and asserts that P&amp;L before the cut is bit-for-bit unchanged. Prices are forward-filled only, never backward. Minimum Track Record Length says demonstrating a Sharpe of 0.5 would take 9.9 years of data against the 3.3 available, so the null is properly read as inconclusive rather than as proof of absence. Forty-four tests, and CI reruns the whole study from cached prices on every push, so a refactor that moves a published number fails the build.</p>
+
+            <h3>What did work</h3>
+            <p>Realised volatility came in at 10.45% against a 10% target and held in both sub-periods while the underlying factor ran at 35.6%. The risk control worked even though the alpha did not.</p>
+
+            <p class="tags"><span class="tag">Python</span><span class="tag">pandas</span><span class="tag">statsmodels</span><span class="tag">Plotly / Dash</span><span class="tag">Backtesting</span></p>
+          </div>
+        </article>
+      </li>
+
       <!-- ---------------------------------------------- Amnesty -->
       <li class="reveal">
         <article class="card pressable" data-project="amnesty" tabindex="0" role="button" aria-haspopup="dialog">
@@ -210,31 +244,6 @@
             <p>A fine-tuned Aurora inference pipeline in PyTorch, built on the NVIDIA AI software stack. It reached 0.1&#8239;°C temperature accuracy, outperforming the baseline models used by competing teams. The project took first place.</p>
 
             <p class="tags"><span class="tag">Microsoft Aurora</span><span class="tag">PyTorch</span><span class="tag">NVIDIA DGX OS</span><span class="tag">Fine-tuning</span></p>
-          </div>
-        </article>
-      </li>
-
-      <!-- ---------------------------------------------- Climate -->
-      <li class="reveal">
-        <article class="card pressable" data-project="climate" tabindex="0" role="button" aria-haspopup="dialog">
-          <p class="card__kicker">Personal project · Mar 2025</p>
-          <h3 class="card__title">Climate Finance Dashboard</h3>
-          <p class="card__summary">Three fragmented public datasets from the OECD, IRENA and the World Bank, unified into one, with a dashboard for reading global climate investment flows.</p>
-          <p class="tags"><span class="tag">ETL</span><span class="tag">Plotly</span><span class="tag">Dash</span></p>
-          <span class="card__more" aria-hidden="true">Read more</span>
-
-          <div class="detail" hidden>
-            <p class="detail__kicker">Personal project · Mar 2025</p>
-            <h2 class="detail__title">Climate Finance Dashboard</h2>
-            <p class="detail__lede">Climate finance data is public and plentiful, and spread across three major sources that do not agree on schema. Most of the work was in making them agree.</p>
-
-            <h3>The pipeline</h3>
-            <p>A Python ETL pipeline ingesting, cleaning and aggregating publicly available climate finance data from the OECD, IRENA and the World Bank into a single unified dataset suitable for trend analysis.</p>
-
-            <h3>The dashboard</h3>
-            <p>An interactive Plotly and Dash dashboard showing global climate investment flows by sector, region and instrument type, so a question about where capital actually goes can be answered in a few clicks rather than a few days.</p>
-
-            <p class="tags"><span class="tag">Python</span><span class="tag">ETL</span><span class="tag">Plotly</span><span class="tag">Dash</span></p>
           </div>
         </article>
       </li>
@@ -292,30 +301,6 @@
         </article>
       </li>
 
-      <!-- ---------------------------------------------- GCHQ -->
-      <li class="reveal">
-        <article class="card pressable" data-project="gchq" tabindex="0" role="button" aria-haspopup="dialog">
-          <p class="card__kicker">GCHQ · Aug to Sep 2022</p>
-          <h3 class="card__title">CyberFirst Defenders <span class="card__badge">Top scorer</span></h3>
-          <p class="card__summary">Red team and blue team exercises, cryptography and open-source intelligence on GCHQ's residential course. Highest result in a cohort of 200+.</p>
-          <p class="tags"><span class="tag">Red / blue team</span><span class="tag">OSINT</span><span class="tag">Cryptography</span></p>
-          <span class="card__more" aria-hidden="true">Read more</span>
-
-          <div class="detail" hidden>
-            <p class="detail__kicker">GCHQ · Aug to Sep 2022 · Residential Course Apprentice</p>
-            <h2 class="detail__title">GCHQ CyberFirst Defenders</h2>
-            <p class="detail__lede">GCHQ's residential cyber security course, where security is taught as an adversarial discipline rather than a checklist.</p>
-
-            <h3>What it covered</h3>
-            <p>Hands-on cybersecurity fundamentals including encryption, ethical hacking and data security, then red team and blue team exercises alongside open-source intelligence work.</p>
-
-            <h3>Result</h3>
-            <p>Achieved the highest result in a cohort of 200+, and attained an SCQF level 4 cybersecurity qualification.</p>
-
-            <p class="tags"><span class="tag">Encryption</span><span class="tag">Ethical hacking</span><span class="tag">OSINT</span><span class="tag">SCQF Level 4</span></p>
-          </div>
-        </article>
-      </li>
 
     </ul>
   </div>
@@ -359,7 +344,7 @@
             <dt>Data engineering</dt>
             <dd>PostgreSQL, Docker, GitHub Actions, CI/CD, ETL pipelines, AWS (EC2, S3), Selenium, Plotly</dd>
             <dt>Quantitative methods</dt>
-            <dd>Simulated annealing, ant colony optimisation, stochastic modelling, differential privacy, natural language processing</dd>
+            <dd>Backtesting, volatility targeting, deflated Sharpe, Newey&#8211;West inference, simulated annealing, ant colony optimisation, stochastic modelling, differential privacy, natural language processing</dd>
             <dt>AI tooling</dt>
             <dd>Kiro, Azure AI Foundry, AWS Bedrock, Atlassian Forge, HuggingFace</dd>
           </dl>
