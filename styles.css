@@ -17,30 +17,42 @@
 /* ---------------------------------------------------- 1. Tokens */
 :root {
   /* Light */
-  --bg:              #f5f5f7;
-  --bg-elevated:     #ffffff;
-  --bg-sunken:       #ececef;
-  --text:            #1d1d1f;
-  --text-secondary:  #55555b;
-  --text-tertiary:   #86868b;
-  --accent:          #0057d9;
-  --accent-soft:     rgba(0, 87, 217, 0.10);
-  --hairline:        rgba(0, 0, 0, 0.10);
-  --hairline-strong: rgba(0, 0, 0, 0.16);
+  --bg:              #eaeefb;
+  --bg-elevated:     rgba(255, 255, 255, 0.55);
+  --bg-sunken:       rgba(255, 255, 255, 0.28);
+  --text:            #1a1f2e;
+  /* Secondary and tertiary are darker than the flat design needed. Small
+     text sits over a colour field here, not over a flat neutral, so the
+     worst-case surface (the blue blob, seen through card glass) is what
+     they have to clear. Both hold 4.5:1 against it; the pair keeps a
+     visible luminance step so the hierarchy survives the darkening. */
+  --text-secondary:  #363d52;
+  --text-tertiary:   #4a4f60;
+  --accent:          #3355e0;
+  --accent-soft:     rgba(51, 85, 224, 0.12);
+  --hairline:        rgba(255, 255, 255, 0.55);
+  --hairline-strong: rgba(255, 255, 255, 0.85);
 
   /* Material: a translucent layer, content passes beneath it */
-  --material:        rgba(250, 250, 252, 0.72);
-  --material-blur:   blur(20px) saturate(180%);
-  --material-edge:   rgba(255, 255, 255, 0.7);
+  --material:        rgba(255, 255, 255, 0.42);
+  --material-blur:   blur(22px) saturate(180%);
+  --material-edge:   rgba(255, 255, 255, 0.9);
+
+  /* The specular inset is what separates glass from a plain blur: a bright
+     top edge reads as light catching a bevel. Every raised surface carries
+     it, which is why it is a token and not a one-off. */
+  --specular:  inset 0 1px 0 rgba(255,255,255,.95), inset 0 -1px 0 rgba(255,255,255,.35);
 
   /* Bigger surfaces read as thicker: deeper shadow, stronger blur */
-  --shadow-sm: 0 1px 2px rgba(0,0,0,.04), 0 2px 8px rgba(0,0,0,.04);
-  --shadow-md: 0 2px 6px rgba(0,0,0,.06), 0 12px 32px rgba(0,0,0,.08);
-  --shadow-lg: 0 -1px 0 var(--hairline), 0 -8px 24px rgba(0,0,0,.08), 0 -24px 64px rgba(0,0,0,.14);
+  --shadow-sm: var(--specular), 0 4px 14px rgba(45, 55, 95, 0.10);
+  --shadow-md: var(--specular), 0 8px 30px rgba(45, 55, 95, 0.14);
+  --shadow-lg: var(--specular), 0 -12px 48px rgba(30, 38, 70, 0.24);
 
-  --radius-sm: 10px;
-  --radius:    18px;
-  --radius-lg: 26px;
+  /* Larger than the flat design used. Glass has thickness, and a tight
+     corner on a thick material reads as a cut rather than a moulded edge. */
+  --radius-sm: 14px;
+  --radius:    24px;
+  --radius-lg: 34px;
 
   --wrap:      68rem;
   --gutter:    clamp(1.25rem, 5vw, 3rem);
@@ -56,44 +68,46 @@
    light value on bare :root above. */
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
-    --bg:              #000000;
-    --bg-elevated:     #161618;
-    --bg-sunken:       #0b0b0c;
-    --text:            #f5f5f7;
-    --text-secondary:  #a8a8ad;
-    --text-tertiary:   #7c7c82;
-    --accent:          #4d9dff;
-    --accent-soft:     rgba(77, 157, 255, 0.14);
-    --hairline:        rgba(255, 255, 255, 0.10);
-    --hairline-strong: rgba(255, 255, 255, 0.18);
+    --bg:              #070a14;
+    --bg-elevated:     rgba(255, 255, 255, 0.07);
+    --bg-sunken:       rgba(255, 255, 255, 0.04);
+    --text:            #eef1fa;
+    --text-secondary:  #b4bbd1;
+    --text-tertiary:   #9ba0b1;
+    --accent:          #7fa6ff;
+    --accent-soft:     rgba(127, 166, 255, 0.16);
+    --hairline:        rgba(255, 255, 255, 0.12);
+    --hairline-strong: rgba(255, 255, 255, 0.22);
 
-    --material:        rgba(24, 24, 26, 0.68);
-    --material-edge:   rgba(255, 255, 255, 0.12);
+    --material:        rgba(22, 27, 45, 0.55);
+    --material-edge:   rgba(255, 255, 255, 0.18);
 
-    --shadow-sm: 0 1px 2px rgba(0,0,0,.4);
-    --shadow-md: 0 2px 8px rgba(0,0,0,.5), 0 16px 40px rgba(0,0,0,.5);
-    --shadow-lg: 0 -1px 0 var(--hairline), 0 -12px 48px rgba(0,0,0,.7);
+    --specular:  inset 0 1px 0 rgba(255,255,255,.22), inset 0 -1px 0 rgba(255,255,255,.06);
+    --shadow-sm: var(--specular), 0 4px 16px rgba(0, 0, 0, 0.5);
+    --shadow-md: var(--specular), 0 10px 36px rgba(0, 0, 0, 0.6);
+    --shadow-lg: var(--specular), 0 -14px 56px rgba(0, 0, 0, 0.75);
   }
 }
 
 :root[data-theme="dark"] {
-  --bg:              #000000;
-  --bg-elevated:     #161618;
-  --bg-sunken:       #0b0b0c;
-  --text:            #f5f5f7;
-  --text-secondary:  #a8a8ad;
-  --text-tertiary:   #7c7c82;
-  --accent:          #4d9dff;
-  --accent-soft:     rgba(77, 157, 255, 0.14);
-  --hairline:        rgba(255, 255, 255, 0.10);
-  --hairline-strong: rgba(255, 255, 255, 0.18);
+  --bg:              #070a14;
+  --bg-elevated:     rgba(255, 255, 255, 0.07);
+  --bg-sunken:       rgba(255, 255, 255, 0.04);
+  --text:            #eef1fa;
+  --text-secondary:  #b4bbd1;
+  --text-tertiary:   #9ba0b1;
+  --accent:          #7fa6ff;
+  --accent-soft:     rgba(127, 166, 255, 0.16);
+  --hairline:        rgba(255, 255, 255, 0.12);
+  --hairline-strong: rgba(255, 255, 255, 0.22);
 
-  --material:        rgba(24, 24, 26, 0.68);
-  --material-edge:   rgba(255, 255, 255, 0.12);
+  --material:        rgba(22, 27, 45, 0.55);
+  --material-edge:   rgba(255, 255, 255, 0.18);
 
-  --shadow-sm: 0 1px 2px rgba(0,0,0,.4);
-  --shadow-md: 0 2px 8px rgba(0,0,0,.5), 0 16px 40px rgba(0,0,0,.5);
-  --shadow-lg: 0 -1px 0 var(--hairline), 0 -12px 48px rgba(0,0,0,.7);
+  --specular:  inset 0 1px 0 rgba(255,255,255,.22), inset 0 -1px 0 rgba(255,255,255,.06);
+  --shadow-sm: var(--specular), 0 4px 16px rgba(0, 0, 0, 0.5);
+  --shadow-md: var(--specular), 0 10px 36px rgba(0, 0, 0, 0.6);
+  --shadow-lg: var(--specular), 0 -14px 56px rgba(0, 0, 0, 0.75);
 }
 
 /* color-scheme must follow the explicit choice too, otherwise form controls,
@@ -108,6 +122,9 @@ html {
   -webkit-text-size-adjust: 100%;
   scroll-behavior: smooth;
   scroll-padding-top: 6rem;
+  /* html carries the base colour so the canvas is never white on a slow
+     paint; body is transparent so the fixed backdrop shows through it. */
+  background: var(--bg);
 }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
@@ -117,7 +134,7 @@ body {
   margin: 0;
   font: 100%/1.6 -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, Roboto, sans-serif;
   font-optical-sizing: auto;
-  background: var(--bg);
+  background: transparent;
   color: var(--text);
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
@@ -252,7 +269,7 @@ code {
 .hero__name {
   font-size: clamp(3rem, 11vw, 6.5rem);
   line-height: 1.02;           /* tight leading for large type */
-  letter-spacing: -0.035em;    /* negative tracking as it grows */
+  letter-spacing: -0.042em;    /* negative tracking as it grows */
   font-weight: 700;
   margin-bottom: clamp(1.25rem, 3vw, 2rem);
 }
@@ -281,18 +298,23 @@ code {
   font-size: 0.9375rem;
   font-weight: 500;
   letter-spacing: -0.005em;
-  border: 1px solid var(--hairline-strong);
-  background: var(--bg-elevated);
+  border: 1px solid var(--material-edge);
+  background: var(--material);
+  backdrop-filter: var(--material-blur);
+  -webkit-backdrop-filter: var(--material-blur);
   color: var(--text);
   cursor: pointer;
 }
 .btn:hover { border-color: var(--text-tertiary); }
 .btn--primary {
   background: var(--accent);
-  border-color: var(--accent);
+  border-color: transparent;
   color: #fff;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.35), 0 6px 20px rgba(51, 85, 224, 0.35);
 }
-.btn--primary:hover { filter: brightness(1.08); border-color: var(--accent); }
+.btn--primary:hover { filter: brightness(1.08); border-color: transparent; }
 
 .hero__facts {
   display: grid;
@@ -413,7 +435,7 @@ code {
   font-weight: 500;
   letter-spacing: 0.015em;
   padding: 0.28rem 0.6rem;
-  border-radius: 7px;
+  border-radius: 999px;
   background: var(--bg-sunken);
   color: var(--text-secondary);
   border: 1px solid var(--hairline);
@@ -432,14 +454,19 @@ code {
   display: flex;
   flex-direction: column;
   padding: clamp(1.35rem, 3vw, 1.85rem);
-  border-radius: var(--radius);
-  background: var(--bg-elevated);
-  border: 1px solid var(--hairline);
-  box-shadow: var(--shadow-sm);
+  border-radius: var(--radius-lg);
+  background: var(--material);
+  backdrop-filter: var(--material-blur);
+  -webkit-backdrop-filter: var(--material-blur);
+  border: 1px solid var(--material-edge);
+  box-shadow: var(--shadow-md);
   cursor: pointer;
   will-change: transform;
 }
 .card:hover { box-shadow: var(--shadow-md); border-color: var(--hairline-strong); }
+/* Glass is a sealed surface: the blur stops at the card edge, and nothing
+   inside it gets a second backdrop-filter. Nesting filters multiplies
+   compositing cost and buys nothing you can see. */
 
 .card__kicker {
   font-size: 0.75rem;
@@ -508,7 +535,10 @@ code {
   height: min(88vh, 60rem);
   translate: -50% 0;
   border-radius: var(--radius-lg) var(--radius-lg) 0 0;
-  background: var(--bg-elevated);
+  background: var(--material);
+  backdrop-filter: blur(30px) saturate(180%);
+  -webkit-backdrop-filter: blur(30px) saturate(180%);
+  border-top: 1px solid var(--material-edge);
   box-shadow: var(--shadow-lg);
   display: flex;
   flex-direction: column;
@@ -627,8 +657,10 @@ code {
 .panel {
   padding: clamp(1.25rem, 3vw, 1.75rem);
   border-radius: var(--radius);
-  background: var(--bg-elevated);
-  border: 1px solid var(--hairline);
+  background: var(--material);
+  backdrop-filter: var(--material-blur);
+  -webkit-backdrop-filter: var(--material-blur);
+  border: 1px solid var(--material-edge);
   box-shadow: var(--shadow-sm);
 }
 .panel__title {
@@ -678,8 +710,10 @@ code {
   display: block;
   padding: 1.1rem 1.35rem;
   border-radius: var(--radius);
-  background: var(--bg-elevated);
-  border: 1px solid var(--hairline);
+  background: var(--material);
+  backdrop-filter: var(--material-blur);
+  -webkit-backdrop-filter: var(--material-blur);
+  border: 1px solid var(--material-edge);
   box-shadow: var(--shadow-sm);
 }
 .contact__link:hover { border-color: var(--hairline-strong); box-shadow: var(--shadow-md); }
@@ -733,31 +767,78 @@ code {
   }
 }
 
+/* Not a nicety. Every raised surface on this page is translucent, so
+   without this the site is unusable for anyone who has asked their system
+   for solid surfaces. It is the mitigation that makes shipping glass
+   defensible rather than decorative. */
 @media (prefers-reduced-transparency: reduce) {
-  .nav__inner {
-    background: var(--bg-elevated);
+  :root       { --bg-elevated: #ffffff; --material: #ffffff; }
+  :root[data-theme="dark"] { --bg-elevated: #161822; --material: #161822; }
+
+  .backdrop { background: none; }
+  body { background: var(--bg); }
+
+  .nav__inner, .card, .panel, .contact__link, .btn, .sheet {
+    background: var(--material);
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    border-color: var(--hairline-strong);
+  }
+}
+@media (prefers-reduced-transparency: reduce) and (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) { --bg-elevated: #161822; --material: #161822; }
+}
+
+/* Text over a colour field is the weak point of the whole design, so higher
+   contrast drops the backdrop right back and makes the surfaces opaque. */
+@media (prefers-contrast: more) {
+  :root { --hairline: rgba(0,0,0,.4); --hairline-strong: rgba(0,0,0,.6); --text-secondary: #262c3c; --text-tertiary: #3d4459; }
+  .backdrop { opacity: 0.22; }
+  .nav__inner, .card, .panel, .contact__link, .btn {
+    background: #fff;
     backdrop-filter: none;
     -webkit-backdrop-filter: none;
   }
-}
-
-@media (prefers-contrast: more) {
-  :root { --hairline: rgba(0,0,0,.4); --hairline-strong: rgba(0,0,0,.6); --text-secondary: #2b2b2f; --text-tertiary: #45454b; }
-  .nav__inner { background: var(--bg-elevated); backdrop-filter: none; -webkit-backdrop-filter: none; }
-  .card, .panel, .contact__link { border-width: 1.5px; }
+  .card, .panel, .contact__link { border-width: 1.5px; border-color: rgba(0,0,0,.45); }
 }
 @media (prefers-contrast: more) and (prefers-color-scheme: dark) {
   :root { --hairline: rgba(255,255,255,.42); --hairline-strong: rgba(255,255,255,.65); --text-secondary: #e2e2e6; --text-tertiary: #c0c0c6; }
+  .nav__inner, .card, .panel, .contact__link, .btn { background: #0d1018; }
+  .card, .panel, .contact__link { border-color: rgba(255,255,255,.5); }
 }
 
-/* ------------------------------------- 16. Backdrop, toggle, picker
-   The backdrop is inert here. Classic has nothing to refract and wants
-   nothing behind the content; the glass themes paint it. */
+/* ------------------------------------- 16. Backdrop and theme toggle
+   Glass is a material, not a colour, and it only reads as glass when
+   there is something behind it worth bending. This is that something:
+   a fixed colour field the whole page floats on. Take it away and every
+   translucent surface collapses into a grey box. */
 .backdrop {
   position: fixed;
   inset: 0;
   z-index: -1;
   pointer-events: none;
+  background:
+    radial-gradient(58rem 42rem at 12% -8%,  rgba(120, 155, 255, 0.55), transparent 62%),
+    radial-gradient(48rem 38rem at 88% 6%,   rgba(197, 148, 255, 0.45), transparent 60%),
+    radial-gradient(52rem 44rem at 72% 92%,  rgba(255, 173, 190, 0.40), transparent 62%),
+    radial-gradient(44rem 36rem at 22% 78%,  rgba(129, 226, 226, 0.38), transparent 60%);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .backdrop {
+    background:
+      radial-gradient(58rem 42rem at 12% -8%, rgba(52, 84, 190, 0.55), transparent 62%),
+      radial-gradient(48rem 38rem at 88% 6%,  rgba(104, 62, 170, 0.50), transparent 60%),
+      radial-gradient(52rem 44rem at 72% 92%, rgba(150, 48, 92, 0.42), transparent 62%),
+      radial-gradient(44rem 36rem at 22% 78%, rgba(20, 110, 128, 0.42), transparent 60%);
+  }
+}
+:root[data-theme="dark"] .backdrop {
+  background:
+    radial-gradient(58rem 42rem at 12% -8%, rgba(52, 84, 190, 0.55), transparent 62%),
+    radial-gradient(48rem 38rem at 88% 6%,  rgba(104, 62, 170, 0.50), transparent 60%),
+    radial-gradient(52rem 44rem at 72% 92%, rgba(150, 48, 92, 0.42), transparent 62%),
+    radial-gradient(44rem 36rem at 22% 78%, rgba(20, 110, 128, 0.42), transparent 60%);
 }
 
 /* The toggle sits inside the nav pill, so it inherits the material rather
@@ -785,49 +866,9 @@ code {
 :root[data-theme="dark"] .nav__theme-moon { display: block; }
 :root:not([data-theme]) .nav__theme { opacity: 0.55; }
 
-/* Prototype picker. Only ever rendered when a ?style= parameter is present,
-   so the live site never carries it. */
-.picker {
-  position: fixed;
-  left: 50%;
-  bottom: 1rem;
-  translate: -50% 0;
-  z-index: 60;
-  display: flex;
-  align-items: center;
-  gap: 0.15rem;
-  padding: 0.3rem 0.35rem;
-  border-radius: 999px;
-  background: var(--material);
-  backdrop-filter: var(--material-blur);
-  -webkit-backdrop-filter: var(--material-blur);
-  border: 1px solid var(--material-edge);
-  box-shadow: var(--shadow-md);
-}
-.picker__label {
-  font-size: 0.6875rem;
-  letter-spacing: 0.07em;
-  text-transform: uppercase;
-  color: var(--text-tertiary);
-  padding: 0 0.5rem 0 0.6rem;
-}
-.picker__btn {
-  border: none;
-  background: transparent;
-  border-radius: 999px;
-  padding: 0.35rem 0.75rem;
-  font: inherit;
-  font-size: 0.8125rem;
-  font-weight: 500;
-  color: var(--text-secondary);
-  cursor: pointer;
-}
-.picker__btn:hover { color: var(--text); background: var(--accent-soft); }
-.picker__btn.is-current { color: #fff; background: var(--accent); }
-
 /* ---------------------------------------------------- 17. Print */
 @media print {
-  .nav, .scrim, .sheet, .skip-link, .card__more, .hero__actions, .picker, .backdrop { display: none !important; }
+  .nav, .scrim, .sheet, .skip-link, .card__more, .hero__actions, .backdrop { display: none !important; }
   body { background: #fff; color: #000; }
   .reveal { opacity: 1 !important; transform: none !important; }
   .card, .panel, .contact__link { box-shadow: none; border: 1px solid #ccc; break-inside: avoid; }

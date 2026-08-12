@@ -6,8 +6,8 @@
 <title>Kang Ji · Data Science and Software Engineering</title>
 <meta name="description" content="Kang Ji. BSc Data Science at UCL. Data pipelines, machine learning systems and privacy engineering. Previously NatWest Group, IQVIA and Subsea7.">
 <meta name="author" content="Kang Ji">
-<meta name="theme-color" content="#f5f5f7" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#eaeefb" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#070a14" media="(prefers-color-scheme: dark)">
 
 <meta property="og:type" content="website">
 <meta property="og:title" content="Kang Ji · Data Science and Software Engineering">
@@ -16,37 +16,19 @@
 <meta name="twitter:card" content="summary">
 
 <link rel="canonical" href="https://kang-ji-2048.github.io/">
-<link rel="stylesheet" href="styles.css" id="theme-css">
-<link rel="stylesheet" href="" id="theme-overlay" disabled>
+<link rel="stylesheet" href="styles.css">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90' font-family='system-ui'>K</text></svg>">
 
-<!-- Runs before first paint, and has to. It sits after the stylesheet links
-     because it rewrites one of them, and it is inline and blocking because
-     deferring either job produces a visible flash of the wrong stylesheet
-     or the wrong theme.
-
-     styles.css always loads and carries the layout. A prototype theme is an
-     overlay on top of it, not a replacement, so no variant can render
-     half-styled because one component was missed. -->
+<!-- Runs before first paint, and has to. Inline and blocking is the point:
+     defer this and the page paints in the OS's theme for a frame before
+     flipping to the stored one, which is the flash everyone has seen and
+     nobody wants. -->
 <script>
 (function () {
-  var STYLES = { classic: null, glass: 'themes/glass.css', m3: 'themes/m3.css', hybrid: 'themes/hybrid.css' };
-  try {
-    var wanted = new URLSearchParams(location.search).get('style');
-    // Matched against a fixed list, never interpolated into a path, so a
-    // crafted parameter cannot point the link at an arbitrary URL.
-    if (wanted && Object.prototype.hasOwnProperty.call(STYLES, wanted)) {
-      document.documentElement.setAttribute('data-style', wanted);
-      if (STYLES[wanted]) {
-        var overlay = document.getElementById('theme-overlay');
-        overlay.href = STYLES[wanted];
-        overlay.disabled = false;
-      }
-    }
-  } catch (e) {}
   try {
     var theme = localStorage.getItem('kj-theme');
-    // System state stamps nothing, which is what lets the media query win.
+    // System state stamps nothing. The media query can only take over in
+    // the attribute's absence, so writing "system" here would break it.
     if (theme === 'light' || theme === 'dark') {
       document.documentElement.setAttribute('data-theme', theme);
     }
@@ -58,7 +40,8 @@
 
 <a class="skip-link" href="#main">Skip to content</a>
 
-<!-- The layer glass refracts. Themes that do not use it leave it transparent. -->
+<!-- The colour field the glass refracts. Remove it and every translucent
+     surface on the page collapses into a grey box. -->
 <div class="backdrop" aria-hidden="true"></div>
 
 <!-- ============================================================ NAV -->
@@ -178,7 +161,7 @@
 
       <!-- ---------------------------------------------- F1 -->
       <li class="reveal">
-        <article class="card pressable" data-project="f1-pipeline" data-weight="major" tabindex="0" role="button" aria-haspopup="dialog">
+        <article class="card pressable" data-project="f1-pipeline" tabindex="0" role="button" aria-haspopup="dialog">
           <p class="card__kicker">Personal project · Feb 2025, ongoing</p>
           <h3 class="card__title">Formula 1 Data Pipeline</h3>
           <p class="card__summary">A batch and real-time ETL pipeline feeding a Postgres warehouse, a gradient-boosting points model and a nine-view dashboard. Containerised, tested and deployed on AWS.</p>
@@ -210,7 +193,7 @@
 
       <!-- ---------------------------------------------- Carbon -->
       <li class="reveal">
-        <article class="card pressable" data-project="carbon" data-weight="major" tabindex="0" role="button" aria-haspopup="dialog">
+        <article class="card pressable" data-project="carbon" tabindex="0" role="button" aria-haspopup="dialog">
           <p class="card__kicker">Quant research · Jul to Aug 2026</p>
           <h3 class="card__title">Carbon Signal Research</h3>
           <p class="card__summary">Does a rising carbon price predict clean energy beating fossil fuels? On this sample, no &mdash; and the more interesting result is how easily it could have been claimed otherwise.</p>
@@ -244,7 +227,7 @@
 
       <!-- ---------------------------------------------- Amnesty -->
       <li class="reveal">
-        <article class="card pressable" data-project="amnesty" data-weight="minor" tabindex="0" role="button" aria-haspopup="dialog">
+        <article class="card pressable" data-project="amnesty" tabindex="0" role="button" aria-haspopup="dialog">
           <p class="card__kicker">UCL Innovation Fest · Jun 2026</p>
           <h3 class="card__title">Amnesty International × Manifest</h3>
           <p class="card__summary">A privacy-preserving selective-disclosure architecture, letting Amnesty prove collective impact from anonymous testimony without exposing a single witness.</p>
@@ -272,7 +255,7 @@
 
       <!-- ---------------------------------------------- NVIDIA -->
       <li class="reveal">
-        <article class="card pressable" data-project="nvidia" data-weight="major" tabindex="0" role="button" aria-haspopup="dialog">
+        <article class="card pressable" data-project="nvidia" tabindex="0" role="button" aria-haspopup="dialog">
           <p class="card__kicker">Hackathon · Mar 2026</p>
           <h3 class="card__title">NVIDIA × Lenovo Hackathon <span class="card__badge">1st place</span></h3>
           <p class="card__summary">Backend and ML lead on a hyperlocal atmospheric forecaster for stargazing, running Microsoft Aurora on NVIDIA DGX OS. 0.1&#8239;°C temperature accuracy.</p>
@@ -297,7 +280,7 @@
 
       <!-- ---------------------------------------------- Templeton -->
       <li class="reveal">
-        <article class="card pressable" data-project="templeton" data-weight="minor" tabindex="0" role="button" aria-haspopup="dialog">
+        <article class="card pressable" data-project="templeton" tabindex="0" role="button" aria-haspopup="dialog">
           <p class="card__kicker">Research · May to Jun 2023</p>
           <h3 class="card__title">Templeton Scholarship Project</h3>
           <p class="card__summary">Treating badminton footwork as an optimisation problem. Ant Colony Optimisation and Simulated Annealing cut distance travelled per point by 24%.</p>
@@ -322,7 +305,7 @@
 
       <!-- ---------------------------------------------- CanSat -->
       <li class="reveal">
-        <article class="card pressable" data-project="cansat" data-weight="minor" tabindex="0" role="button" aria-haspopup="dialog">
+        <article class="card pressable" data-project="cansat" tabindex="0" role="button" aria-haspopup="dialog">
           <p class="card__kicker">European Space Agency · Dec 2022 to Mar 2023</p>
           <h3 class="card__title">ESA CanSat</h3>
           <p class="card__summary">A mass-producible satellite simulator and weather probe. Top 10 nationally at preliminary design review, and the only one of twenty teams to secure extra funding.</p>

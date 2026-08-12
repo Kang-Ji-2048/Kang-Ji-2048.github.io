@@ -6,7 +6,7 @@ browser and it works.
 ```
 index.html   all content lives here
 styles.css   design tokens at the top, sections below
-main.js      spring engine, project sheet, scroll behaviour
+main.js      spring engine, project sheet, theme toggle, scroll behaviour
 .nojekyll    tells GitHub Pages not to run Jekyll over the files
 ```
 
@@ -83,6 +83,28 @@ sound like the same person:
 
 - **System font, no webfont.** It already ships optical sizing, tracking tables and
   legibility tuning, and it costs zero bytes.
+- **Glass is a material, not a colour.** Every raised surface is translucent over a
+  fixed colour field, which is what the `.backdrop` div exists for. Delete it and the
+  whole design collapses into grey boxes, because a blur with nothing behind it is
+  just a grey box. The bright inset top edge, the `--specular` token, is the part
+  that reads as light catching a bevel rather than as a blur.
+- **The blur stops at the surface.** `backdrop-filter` is on chrome and card
+  surfaces only, never on anything inside them. Nesting filters multiplies
+  compositing cost and buys nothing visible.
+- **The primary button is the one opaque control.** A call to action you can see
+  through is a weak one.
+- **Text colours were solved against the worst-case surface, not the average.**
+  Small text sits over a colour field, so `--text-secondary` and `--text-tertiary`
+  were set by computing contrast against the darkest gradient blob seen through card
+  glass. Both clear 4.5:1 there, and the pair keeps a visible luminance step so
+  three levels of hierarchy survive. The flat design's lighter greys failed this;
+  tertiary was at 2.5:1.
+- **Three colour states, not two.** Light, dark and system. Dark is declared twice
+  in the CSS on purpose: guarded inside the media query so an explicit light choice
+  beats a dark-preferring OS, and again on `[data-theme="dark"]` so the reverse
+  holds. Removing either breaks the toggle in one direction. The choice is stamped
+  on `<html>` by a blocking inline script before first paint, because deferring it
+  is what causes the flash of the wrong theme.
 - **Tracking is size-specific.** Large display type gets negative letter-spacing, body
   sits near zero, small uppercase labels get a positive bump. One fixed `letter-spacing`
   value is always wrong somewhere.
@@ -95,6 +117,10 @@ sound like the same person:
   cannot do any of that.
 - **`prefers-reduced-motion`, `prefers-reduced-transparency` and `prefers-contrast`** are
   all handled. Reduced motion cross-fades rather than removing feedback entirely.
+  Reduced transparency is not a nicety on this design, it is load-bearing: every
+  raised surface is translucent, so without a solid fallback the site is unusable
+  for anyone whose system asks for one. Higher contrast drops the backdrop back to
+  22% and makes the surfaces fully opaque.
 - **Only `transform` and `opacity` animate**, the two properties the compositor handles
   without a repaint.
 
