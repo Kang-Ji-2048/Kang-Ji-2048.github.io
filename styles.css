@@ -652,7 +652,12 @@ code {
 }
 .about__prose p + p { margin-top: 1.1rem; }
 
-.about__side { display: grid; gap: 1rem; }
+/* The left column holds the prose and one panel. All four panels on the
+   right left roughly 500px of dead space under the text; moving the
+   smallest one across closes most of that gap. */
+.about__main { display: grid; gap: 1.75rem; align-content: start; }
+
+.about__side { display: grid; gap: 1rem; align-content: start; }
 
 .panel {
   padding: clamp(1.25rem, 3vw, 1.75rem);
