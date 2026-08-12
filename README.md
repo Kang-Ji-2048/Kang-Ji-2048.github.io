@@ -1,13 +1,22 @@
 # Portfolio site
 
-Static site. Three files, no build step, no dependencies. Open `index.html` in a
-browser and it works.
+Static site. Three files and a preview image, no build step, no dependencies.
+Open `index.html` in a browser and it works.
 
 ```
 index.html   all content lives here
 styles.css   design tokens at the top, sections below
 main.js      spring engine, project sheet, theme toggle, scroll behaviour
+og.png       the social preview card, generated (see below)
 .nojekyll    tells GitHub Pages not to run Jekyll over the files
+
+tools/make-og-image.py   regenerates og.png. NOT a build step: the site
+                         never runs it, and nothing here is required to
+                         serve the page. It exists so the preview card
+                         can be rebuilt from the same palette values as
+                         styles.css instead of drifting away from the
+                         design. Needs Pillow and numpy:
+                         `python tools/make-og-image.py og.png`
 ```
 
 ## Publishing
@@ -50,9 +59,16 @@ to the integrated masters, this page needs updating along with everything else.
 **Your phone number is deliberately absent.** It is on the CV, which goes to named
 recipients. On a public page it gets scraped. Add it back only if you want that trade.
 
-**The F1 repository backs every claim on the page.** The Docker, AWS, CI and model
-claims were verified against the git tree on 2026-08-09. Anything added to that write-up
-in future has to stay true of the public repo, because the link invites people to check.
+**Three cards link out to public repositories, so three write-ups are checkable.**
+F1 (Docker, AWS, CI and model claims verified against the git tree on 2026-08-09),
+Carbon Signal Research, and Manifest. Anything added to those write-ups has to stay
+true of the public repo, because the link invites people to check. The NVIDIA card
+deliberately has no link: that repository is private.
+
+**The social preview card is a separate artefact.** `og.png` carries the name, the
+lede and the three headline facts. Change any of those on the page and the card is
+silently out of date until you rerun `tools/make-og-image.py`. The `og:image` URL is
+absolute, so it also needs editing if the site moves to a custom domain.
 
 ## Adding a project
 

@@ -13,7 +13,18 @@
 <meta property="og:title" content="Kang Ji · Data Science and Software Engineering">
 <meta property="og:description" content="BSc Data Science at UCL. Data pipelines, machine learning systems and privacy engineering.">
 <meta property="og:url" content="https://kang-ji-2048.github.io/">
-<meta name="twitter:card" content="summary">
+<meta property="og:site_name" content="Kang Ji">
+<meta property="og:locale" content="en_GB">
+<!-- Absolute URL, not relative: crawlers do not resolve these against the
+     page. Change it if the site moves to a custom domain. -->
+<meta property="og:image" content="https://kang-ji-2048.github.io/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Kang Ji. BSc Data Science at UCL, on track for a First. Data pipelines, machine learning systems and privacy engineering.">
+<!-- summary_large_image, not summary: at 1200x630 the small card would
+     centre-crop this to a square and cut the name off. -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://kang-ji-2048.github.io/og.png">
 
 <link rel="canonical" href="https://kang-ji-2048.github.io/">
 <link rel="stylesheet" href="styles.css">
@@ -86,7 +97,7 @@
     <ul class="hero__facts reveal">
       <li><span class="hero__figure">81%</span><span class="hero__caption">weighted average, on track for a First</span></li>
       <li><span class="hero__figure">1st</span><span class="hero__caption">NVIDIA&nbsp;×&nbsp;Lenovo Hackathon, 2026</span></li>
-      <li><span class="hero__figure">98%</span><span class="hero__caption">test coverage shipped at NatWest</span></li>
+      <li><span class="hero__figure">3</span><span class="hero__caption">internships: NatWest, IQVIA and Subsea7</span></li>
     </ul>
   </div>
 </header>
@@ -158,6 +169,31 @@
     <p class="section__lede reveal">Six things I built. Select any one for the full write-up.</p>
 
     <ul class="grid">
+      <!-- ---------------------------------------------- NVIDIA -->
+      <li class="reveal">
+        <article class="card pressable" data-project="nvidia" tabindex="0" role="button" aria-haspopup="dialog">
+          <p class="card__kicker">Hackathon · Mar 2026</p>
+          <h3 class="card__title">NVIDIA × Lenovo Hackathon <span class="card__badge">1st place</span></h3>
+          <p class="card__summary">Backend and ML lead on a hyperlocal atmospheric forecaster for stargazing, running Microsoft Aurora on NVIDIA DGX OS. 0.1&#8239;°C temperature accuracy.</p>
+          <p class="tags"><span class="tag">PyTorch</span><span class="tag">NVIDIA DGX</span><span class="tag">Forecasting</span></p>
+          <span class="card__more" aria-hidden="true">Read more</span>
+
+          <div class="detail" hidden>
+            <p class="detail__kicker">Hackathon · Mar 2026 · Backend and ML Lead, team of four</p>
+            <h2 class="detail__title">NVIDIA × Lenovo Hackathon, 1st Place</h2>
+            <p class="detail__lede">Whether tonight is worth driving out for depends on cloud cover over one valley in one hour, which is a finer resolution than a normal forecast gives you. We built a forecaster at that resolution.</p>
+
+            <h3>What we built</h3>
+            <p>I led backend and ML development in a team of four, deploying Microsoft Aurora, a foundation model for atmospheric forecasting, on NVIDIA DGX OS to predict hyperlocal conditions at candidate stargazing locations.</p>
+
+            <h3>The inference pipeline</h3>
+            <p>A fine-tuned Aurora inference pipeline in PyTorch, built on the NVIDIA AI software stack. It reached 0.1&#8239;°C temperature accuracy, outperforming the baseline models used by competing teams. The project took first place.</p>
+
+            <p class="tags"><span class="tag">Microsoft Aurora</span><span class="tag">PyTorch</span><span class="tag">NVIDIA DGX OS</span><span class="tag">Fine-tuning</span></p>
+          </div>
+        </article>
+      </li>
+
 
       <!-- ---------------------------------------------- F1 -->
       <li class="reveal">
@@ -220,6 +256,7 @@
             <h3>What did work</h3>
             <p>Realised volatility came in at 10.45% against a 10% target and held in both sub-periods while the underlying factor ran at 35.6%. The risk control worked even though the alpha did not.</p>
 
+            <p class="detail__links"><a class="btn pressable" href="https://github.com/Kang-Ji-2048/carbon-signal-research" target="_blank" rel="noopener">View on GitHub&nbsp;&#8599;</a></p>
             <p class="tags"><span class="tag">Python</span><span class="tag">pandas</span><span class="tag">statsmodels</span><span class="tag">Plotly / Dash</span><span class="tag">Backtesting</span></p>
           </div>
         </article>
@@ -248,32 +285,8 @@
             <h3>Threat model</h3>
             <p>I built a static, backendless interface prototype for tiered disclosure, and modelled a Pegasus-class adversary explicitly: device seizure and internet shutdowns, with the trade-offs written down rather than assumed away.</p>
 
+            <p class="detail__links"><a class="btn pressable" href="https://github.com/Kang-Ji-2048/manifest-selective-disclosure" target="_blank" rel="noopener">View on GitHub&nbsp;&#8599;</a></p>
             <p class="tags"><span class="tag">Semaphore</span><span class="tag">BBS+ credentials</span><span class="tag">Secure MPC</span><span class="tag">Laplace mechanism</span><span class="tag">k-anonymity</span><span class="tag">OpenTimestamps</span></p>
-          </div>
-        </article>
-      </li>
-
-      <!-- ---------------------------------------------- NVIDIA -->
-      <li class="reveal">
-        <article class="card pressable" data-project="nvidia" tabindex="0" role="button" aria-haspopup="dialog">
-          <p class="card__kicker">Hackathon · Mar 2026</p>
-          <h3 class="card__title">NVIDIA × Lenovo Hackathon <span class="card__badge">1st place</span></h3>
-          <p class="card__summary">Backend and ML lead on a hyperlocal atmospheric forecaster for stargazing, running Microsoft Aurora on NVIDIA DGX OS. 0.1&#8239;°C temperature accuracy.</p>
-          <p class="tags"><span class="tag">PyTorch</span><span class="tag">NVIDIA DGX</span><span class="tag">Forecasting</span></p>
-          <span class="card__more" aria-hidden="true">Read more</span>
-
-          <div class="detail" hidden>
-            <p class="detail__kicker">Hackathon · Mar 2026 · Backend and ML Lead, team of four</p>
-            <h2 class="detail__title">NVIDIA × Lenovo Hackathon, 1st Place</h2>
-            <p class="detail__lede">Whether tonight is worth driving out for depends on cloud cover over one valley in one hour, which is a finer resolution than a normal forecast gives you. We built a forecaster at that resolution.</p>
-
-            <h3>What we built</h3>
-            <p>I led backend and ML development in a team of four, deploying Microsoft Aurora, a foundation model for atmospheric forecasting, on NVIDIA DGX OS to predict hyperlocal conditions at candidate stargazing locations.</p>
-
-            <h3>The inference pipeline</h3>
-            <p>A fine-tuned Aurora inference pipeline in PyTorch, built on the NVIDIA AI software stack. It reached 0.1&#8239;°C temperature accuracy, outperforming the baseline models used by competing teams. The project took first place.</p>
-
-            <p class="tags"><span class="tag">Microsoft Aurora</span><span class="tag">PyTorch</span><span class="tag">NVIDIA DGX OS</span><span class="tag">Fine-tuning</span></p>
           </div>
         </article>
       </li>
@@ -331,8 +344,7 @@
         </article>
       </li>
 
-
-    </ul>
+</ul>
   </div>
 </section>
 
