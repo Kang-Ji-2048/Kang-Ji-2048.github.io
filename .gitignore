@@ -1,2 +1,6 @@
 .DS_Store
 Thumbs.db
+
+# Local working notes. Pages serves the repo root, so anything committed
+# here would be publicly fetchable at kang-ji-2048.github.io/docs/...
+docs/

@@ -1,0 +1,212 @@
+/* =============================================================
+   Liquid Glass — overlay on styles.css
+
+   Glass is a material, not a colour. It only reads as glass if
+   there is something behind it worth bending, so this theme brings
+   its own backdrop: a slow colour field that the chrome and the
+   cards sit on top of and distort.
+
+   Two rules keep it honest:
+   - backdrop-filter goes on chrome and card SURFACES only, never on
+     text-bearing children. Nesting filters multiplies compositing
+     cost for no visible gain.
+   - every translucent surface has a solid fallback under
+     prefers-reduced-transparency. That fallback is not a nicety; it
+     is what makes shipping a translucent site defensible.
+   ============================================================= */
+
+:root {
+  --bg:              #eaeefb;
+  --bg-elevated:     rgba(255, 255, 255, 0.55);
+  --bg-sunken:       rgba(255, 255, 255, 0.28);
+  --text:            #1a1f2e;
+  --text-secondary:  #464e66;
+  --text-tertiary:   #6f7690;
+  --accent:          #3355e0;
+  --accent-soft:     rgba(51, 85, 224, 0.12);
+  --hairline:        rgba(255, 255, 255, 0.55);
+  --hairline-strong: rgba(255, 255, 255, 0.85);
+
+  --material:        rgba(255, 255, 255, 0.42);
+  --material-blur:   blur(22px) saturate(180%);
+  --material-edge:   rgba(255, 255, 255, 0.9);
+
+  /* The inset highlight is the whole trick: a bright top edge reads as
+     light catching a bevel, which is what separates glass from a blur. */
+  --specular:  inset 0 1px 0 rgba(255,255,255,.95), inset 0 -1px 0 rgba(255,255,255,.35);
+  --shadow-sm: var(--specular), 0 4px 14px rgba(45, 55, 95, 0.10);
+  --shadow-md: var(--specular), 0 8px 30px rgba(45, 55, 95, 0.14);
+  --shadow-lg: var(--specular), 0 -12px 48px rgba(30, 38, 70, 0.24);
+
+  --radius-sm: 14px;
+  --radius:    24px;
+  --radius-lg: 34px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg:              #070a14;
+    --bg-elevated:     rgba(255, 255, 255, 0.07);
+    --bg-sunken:       rgba(255, 255, 255, 0.04);
+    --text:            #eef1fa;
+    --text-secondary:  #a7aec6;
+    --text-tertiary:   #7b8299;
+    --accent:          #7fa6ff;
+    --accent-soft:     rgba(127, 166, 255, 0.16);
+    --hairline:        rgba(255, 255, 255, 0.12);
+    --hairline-strong: rgba(255, 255, 255, 0.22);
+
+    --material:        rgba(22, 27, 45, 0.55);
+    --material-edge:   rgba(255, 255, 255, 0.18);
+
+    --specular:  inset 0 1px 0 rgba(255,255,255,.22), inset 0 -1px 0 rgba(255,255,255,.06);
+    --shadow-sm: var(--specular), 0 4px 16px rgba(0, 0, 0, 0.5);
+    --shadow-md: var(--specular), 0 10px 36px rgba(0, 0, 0, 0.6);
+    --shadow-lg: var(--specular), 0 -14px 56px rgba(0, 0, 0, 0.75);
+  }
+}
+
+:root[data-theme="dark"] {
+  --bg:              #070a14;
+  --bg-elevated:     rgba(255, 255, 255, 0.07);
+  --bg-sunken:       rgba(255, 255, 255, 0.04);
+  --text:            #eef1fa;
+  --text-secondary:  #a7aec6;
+  --text-tertiary:   #7b8299;
+  --accent:          #7fa6ff;
+  --accent-soft:     rgba(127, 166, 255, 0.16);
+  --hairline:        rgba(255, 255, 255, 0.12);
+  --hairline-strong: rgba(255, 255, 255, 0.22);
+
+  --material:        rgba(22, 27, 45, 0.55);
+  --material-edge:   rgba(255, 255, 255, 0.18);
+
+  --specular:  inset 0 1px 0 rgba(255,255,255,.22), inset 0 -1px 0 rgba(255,255,255,.06);
+  --shadow-sm: var(--specular), 0 4px 16px rgba(0, 0, 0, 0.5);
+  --shadow-md: var(--specular), 0 10px 36px rgba(0, 0, 0, 0.6);
+  --shadow-lg: var(--specular), 0 -14px 56px rgba(0, 0, 0, 0.75);
+}
+
+/* ---------------------------------------------------- Backdrop
+   html carries the base colour so the canvas is never white; body is
+   transparent so the fixed backdrop below it shows through. */
+html { background: var(--bg); }
+body { background: transparent; }
+
+.backdrop {
+  background:
+    radial-gradient(58rem 42rem at 12% -8%,  rgba(120, 155, 255, 0.55), transparent 62%),
+    radial-gradient(48rem 38rem at 88% 6%,   rgba(197, 148, 255, 0.45), transparent 60%),
+    radial-gradient(52rem 44rem at 72% 92%,  rgba(255, 173, 190, 0.40), transparent 62%),
+    radial-gradient(44rem 36rem at 22% 78%,  rgba(129, 226, 226, 0.38), transparent 60%);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .backdrop {
+    background:
+      radial-gradient(58rem 42rem at 12% -8%, rgba(52, 84, 190, 0.55), transparent 62%),
+      radial-gradient(48rem 38rem at 88% 6%,  rgba(104, 62, 170, 0.50), transparent 60%),
+      radial-gradient(52rem 44rem at 72% 92%, rgba(150, 48, 92, 0.42), transparent 62%),
+      radial-gradient(44rem 36rem at 22% 78%, rgba(20, 110, 128, 0.42), transparent 60%);
+  }
+}
+:root[data-theme="dark"] .backdrop {
+  background:
+    radial-gradient(58rem 42rem at 12% -8%, rgba(52, 84, 190, 0.55), transparent 62%),
+    radial-gradient(48rem 38rem at 88% 6%,  rgba(104, 62, 170, 0.50), transparent 60%),
+    radial-gradient(52rem 44rem at 72% 92%, rgba(150, 48, 92, 0.42), transparent 62%),
+    radial-gradient(44rem 36rem at 22% 78%, rgba(20, 110, 128, 0.42), transparent 60%);
+}
+
+/* ---------------------------------------------------- Surfaces */
+.card,
+.panel,
+.contact__link,
+.btn {
+  background: var(--material);
+  backdrop-filter: var(--material-blur);
+  -webkit-backdrop-filter: var(--material-blur);
+  border: 1px solid var(--material-edge);
+  box-shadow: var(--shadow-sm);
+}
+
+.card {
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+}
+.card:hover { box-shadow: var(--shadow-md); border-color: #fff; }
+
+.panel        { border-radius: var(--radius); }
+.contact__link{ border-radius: var(--radius); }
+.btn          { border-radius: 999px; }
+
+.btn--primary {
+  background: var(--accent);
+  border-color: transparent;
+  color: #fff;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.35), 0 6px 20px rgba(51, 85, 224, 0.35);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+
+.tag {
+  background: rgba(255, 255, 255, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.75);
+  border-radius: 999px;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .tag {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 255, 255, 0.16);
+  }
+}
+:root[data-theme="dark"] .tag {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.16);
+}
+
+/* Hairline dividers read as etched glass rather than as ink. */
+.entry, .hero__facts, .footer { border-top-color: var(--hairline); }
+
+/* ---------------------------------------------------- Sheet */
+.sheet {
+  background: var(--material);
+  backdrop-filter: blur(30px) saturate(180%);
+  -webkit-backdrop-filter: blur(30px) saturate(180%);
+  border-top: 1px solid var(--material-edge);
+  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+}
+
+/* ---------------------------------------------------- Type
+   Slightly tighter display tracking: glass adds visual noise behind
+   the letterforms, and looser type starts to swim on it. */
+.hero__name { letter-spacing: -0.042em; }
+
+/* ------------------------------------------- Accessibility opt-outs
+   Not optional for this theme. Everything above is translucent, so
+   without these the theme is unusable for anyone who has asked the
+   system for solid surfaces or higher contrast. */
+@media (prefers-reduced-transparency: reduce) {
+  .backdrop { background: none; }
+  body { background: var(--bg); }
+
+  .card, .panel, .contact__link, .btn, .sheet, .nav__inner, .picker {
+    background: var(--bg-elevated);
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    border-color: var(--hairline-strong);
+  }
+  :root { --bg-elevated: #ffffff; }
+  :root[data-theme="dark"] { --bg-elevated: #161822; }
+}
+
+@media (prefers-contrast: more) {
+  .backdrop { opacity: 0.25; }
+  .card, .panel, .contact__link, .btn {
+    background: #fff;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    border-color: rgba(0,0,0,.45);
+  }
+  :root { --text-secondary: #262c3c; --text-tertiary: #3d4459; }
+}

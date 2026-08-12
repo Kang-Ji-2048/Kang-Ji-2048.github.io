@@ -48,8 +48,14 @@
   color-scheme: light dark;
 }
 
+/* Dark is declared twice on purpose, and the duplication is not removable in
+   plain CSS. The media block is guarded so an explicit LIGHT choice beats a
+   dark-preferring OS; the attribute block lets an explicit DARK choice beat a
+   light-preferring OS. Drop either one and the toggle breaks in that
+   direction. No colour is ever defined ONLY in here — every token has its
+   light value on bare :root above. */
 @media (prefers-color-scheme: dark) {
-  :root {
+  :root:not([data-theme="light"]) {
     --bg:              #000000;
     --bg-elevated:     #161618;
     --bg-sunken:       #0b0b0c;
@@ -69,6 +75,31 @@
     --shadow-lg: 0 -1px 0 var(--hairline), 0 -12px 48px rgba(0,0,0,.7);
   }
 }
+
+:root[data-theme="dark"] {
+  --bg:              #000000;
+  --bg-elevated:     #161618;
+  --bg-sunken:       #0b0b0c;
+  --text:            #f5f5f7;
+  --text-secondary:  #a8a8ad;
+  --text-tertiary:   #7c7c82;
+  --accent:          #4d9dff;
+  --accent-soft:     rgba(77, 157, 255, 0.14);
+  --hairline:        rgba(255, 255, 255, 0.10);
+  --hairline-strong: rgba(255, 255, 255, 0.18);
+
+  --material:        rgba(24, 24, 26, 0.68);
+  --material-edge:   rgba(255, 255, 255, 0.12);
+
+  --shadow-sm: 0 1px 2px rgba(0,0,0,.4);
+  --shadow-md: 0 2px 8px rgba(0,0,0,.5), 0 16px 40px rgba(0,0,0,.5);
+  --shadow-lg: 0 -1px 0 var(--hairline), 0 -12px 48px rgba(0,0,0,.7);
+}
+
+/* color-scheme must follow the explicit choice too, otherwise form controls,
+   scrollbars and the caret stay in the OS's mode while everything else flips. */
+:root[data-theme="dark"]  { color-scheme: dark; }
+:root[data-theme="light"] { color-scheme: light; }
 
 /* ---------------------------------------------------- 2. Base */
 *, *::before, *::after { box-sizing: border-box; }
@@ -719,9 +750,84 @@ code {
   :root { --hairline: rgba(255,255,255,.42); --hairline-strong: rgba(255,255,255,.65); --text-secondary: #e2e2e6; --text-tertiary: #c0c0c6; }
 }
 
-/* ---------------------------------------------------- 16. Print */
+/* ------------------------------------- 16. Backdrop, toggle, picker
+   The backdrop is inert here. Classic has nothing to refract and wants
+   nothing behind the content; the glass themes paint it. */
+.backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+}
+
+/* The toggle sits inside the nav pill, so it inherits the material rather
+   than floating as separate chrome. */
+.nav__theme {
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  flex: none;
+  margin-left: 0.15rem;
+  border: none;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--text-secondary);
+  cursor: pointer;
+}
+.nav__theme:hover { color: var(--text); background: var(--accent-soft); }
+
+/* Sun by default. Dark swaps to the moon, system dims the sun so the three
+   states are distinguishable without reading the label. */
+.nav__theme-moon { display: none; }
+:root[data-theme="dark"] .nav__theme-rays { display: none; }
+:root[data-theme="dark"] .nav__theme-icon > circle { display: none; }
+:root[data-theme="dark"] .nav__theme-moon { display: block; }
+:root:not([data-theme]) .nav__theme { opacity: 0.55; }
+
+/* Prototype picker. Only ever rendered when a ?style= parameter is present,
+   so the live site never carries it. */
+.picker {
+  position: fixed;
+  left: 50%;
+  bottom: 1rem;
+  translate: -50% 0;
+  z-index: 60;
+  display: flex;
+  align-items: center;
+  gap: 0.15rem;
+  padding: 0.3rem 0.35rem;
+  border-radius: 999px;
+  background: var(--material);
+  backdrop-filter: var(--material-blur);
+  -webkit-backdrop-filter: var(--material-blur);
+  border: 1px solid var(--material-edge);
+  box-shadow: var(--shadow-md);
+}
+.picker__label {
+  font-size: 0.6875rem;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--text-tertiary);
+  padding: 0 0.5rem 0 0.6rem;
+}
+.picker__btn {
+  border: none;
+  background: transparent;
+  border-radius: 999px;
+  padding: 0.35rem 0.75rem;
+  font: inherit;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+  cursor: pointer;
+}
+.picker__btn:hover { color: var(--text); background: var(--accent-soft); }
+.picker__btn.is-current { color: #fff; background: var(--accent); }
+
+/* ---------------------------------------------------- 17. Print */
 @media print {
-  .nav, .scrim, .sheet, .skip-link, .card__more, .hero__actions { display: none !important; }
+  .nav, .scrim, .sheet, .skip-link, .card__more, .hero__actions, .picker, .backdrop { display: none !important; }
   body { background: #fff; color: #000; }
   .reveal { opacity: 1 !important; transform: none !important; }
   .card, .panel, .contact__link { box-shadow: none; border: 1px solid #ccc; break-inside: avoid; }

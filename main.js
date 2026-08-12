@@ -457,4 +457,141 @@
   var yearEl = document.getElementById('year');
   if (yearEl) yearEl.textContent = new Date().getFullYear();
 
+  /* ===========================================================
+     9. Colour theme — light / dark / system
+     The <head> bootstrap has already stamped the right state before
+     paint. This only owns the cycling, the label and persistence,
+     so there is exactly one place that knows the storage key.
+     =========================================================== */
+  (function themeToggle() {
+    var btn = document.getElementById('theme-toggle');
+    if (!btn) return;
+
+    var KEY = 'kj-theme';
+    var ORDER = ['system', 'light', 'dark'];
+
+    function read() {
+      try {
+        var v = localStorage.getItem(KEY);
+        return (v === 'light' || v === 'dark') ? v : 'system';
+      } catch (e) { return 'system'; }
+    }
+
+    function apply(state) {
+      var root = document.documentElement;
+      // System removes the attribute entirely rather than setting a value.
+      // The media query can only take over in the attribute's absence.
+      if (state === 'system') root.removeAttribute('data-theme');
+      else root.setAttribute('data-theme', state);
+
+      try {
+        if (state === 'system') localStorage.removeItem(KEY);
+        else localStorage.setItem(KEY, state);
+      } catch (e) {}
+
+      btn.setAttribute('aria-label', 'Colour theme: ' + state + '. Activate to change.');
+
+      // The two media-scoped theme-color metas cannot answer an explicit
+      // override, so swap in a single fixed one while the user has chosen.
+      // The colour is read back off the page rather than hardcoded, because
+      // each theme has its own background and a fixed value would leave the
+      // mobile status bar mismatched on three of the four.
+      var dyn = document.getElementById('theme-color-explicit');
+      if (state === 'system') {
+        if (dyn) dyn.remove();
+      } else {
+        if (!dyn) {
+          dyn = document.createElement('meta');
+          dyn.id = 'theme-color-explicit';
+          dyn.name = 'theme-color';
+          document.head.appendChild(dyn);
+        }
+        var bg = getComputedStyle(root).getPropertyValue('--bg').trim();
+        dyn.setAttribute('content', bg || (state === 'dark' ? '#000000' : '#f5f5f7'));
+      }
+    }
+
+    var current = read();
+    apply(current);
+
+    btn.addEventListener('click', function () {
+      current = ORDER[(ORDER.indexOf(current) + 1) % ORDER.length];
+      apply(current);
+    });
+  })();
+
+  /* ===========================================================
+     10. Prototype picker — TEMPORARY
+     Renders only when a ?style= parameter is present, so the live
+     site never carries it. Delete this block, the .picker rules and
+     the themes/ directory once a direction is chosen.
+
+     Swapping happens in place: the overlay stylesheet's href is
+     rewritten and the URL is corrected with replaceState. No
+     navigation means scroll position survives, which is the whole
+     point — you compare one section across four styles without
+     hunting for it again each time.
+     =========================================================== */
+  (function stylePicker() {
+    var STYLES = [
+      { id: 'classic', label: 'Classic', href: null },
+      { id: 'glass',   label: 'Glass',   href: 'themes/glass.css' },
+      { id: 'm3',      label: 'M3',      href: 'themes/m3.css' },
+      { id: 'hybrid',  label: 'Hybrid',  href: 'themes/hybrid.css' }
+    ];
+
+    var root = document.documentElement;
+    var active = root.getAttribute('data-style');
+    if (!active) return;
+
+    var overlay = document.getElementById('theme-overlay');
+    if (!overlay) return;
+
+    var bar = document.createElement('div');
+    bar.className = 'picker';
+    bar.setAttribute('role', 'group');
+    bar.setAttribute('aria-label', 'Design prototype');
+
+    var label = document.createElement('span');
+    label.className = 'picker__label';
+    label.textContent = 'Style';
+    bar.appendChild(label);
+
+    var buttons = {};
+
+    function select(id) {
+      var def = null;
+      for (var i = 0; i < STYLES.length; i++) if (STYLES[i].id === id) def = STYLES[i];
+      if (!def) return;
+
+      if (def.href) { overlay.href = def.href; overlay.disabled = false; }
+      else { overlay.disabled = true; }
+
+      root.setAttribute('data-style', id);
+      active = id;
+
+      Object.keys(buttons).forEach(function (k) {
+        buttons[k].classList.toggle('is-current', k === id);
+        buttons[k].setAttribute('aria-pressed', k === id ? 'true' : 'false');
+      });
+
+      if (history.replaceState) {
+        history.replaceState(null, '', location.pathname + '?style=' + id + location.hash);
+      }
+    }
+
+    STYLES.forEach(function (s) {
+      var b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'picker__btn pressable';
+      b.textContent = s.label;
+      b.addEventListener('click', function () { select(s.id); });
+      buttons[s.id] = b;
+      bar.appendChild(b);
+    });
+
+    document.body.appendChild(bar);
+    select(active);
+  })();
+
 })();
