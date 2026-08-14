@@ -640,9 +640,6 @@ code {
   gap: clamp(2rem, 5vw, 4rem);
   align-items: start;
 }
-@media (max-width: 52rem) {
-  .about { grid-template-columns: 1fr; }
-}
 
 .about__prose p {
   font-size: clamp(1.0625rem, 2vw, 1.1875rem);
@@ -658,6 +655,26 @@ code {
 .about__main { display: grid; gap: 1.75rem; align-content: start; }
 
 .about__side { display: grid; gap: 1rem; align-content: start; }
+
+/* Single column below this width. The panel in the left column would
+   otherwise stack immediately after the prose and land ahead of Education,
+   which is the more important panel on a phone.
+
+   Only .about__main is flattened, never the <aside>. A plain div has no
+   implicit role, so display:contents on it costs nothing semantically,
+   whereas flattening the aside would drop its complementary landmark. That
+   asymmetry is deliberate. */
+@media (max-width: 52rem) {
+  .about {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  .about__main { display: contents; }
+  .about__prose { order: 1; margin-bottom: 0.75rem; }
+  .about__side  { order: 2; }
+  .about__main > .panel { order: 3; }
+}
 
 .panel {
   padding: clamp(1.25rem, 3vw, 1.75rem);
